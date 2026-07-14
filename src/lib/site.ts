@@ -12,6 +12,6 @@ export const SLINGERS_FALLBACK = Math.max(
 );
 
 /** Public repository URL. Finalized at deploy. */
-export const REPO_URL = "https://github.com/santiexcofier/spider-man-brand-new-day";
+export const REPO_URL = "https://github.com/EXCOFFee/spider-man-brand-new-day";
 
 export const SITE_URL = "https://spider-man-brand-new-day.vercel.app";
