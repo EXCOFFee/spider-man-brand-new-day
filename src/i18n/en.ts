@@ -16,9 +16,6 @@ export const en = {
     cta: "See the countdown",
     slingers: {
       label: "web-slingers ready",
-      note: "Join the count",
-      action: "Count me in",
-      counted: "You are in the count",
     },
   },
   countdown: {

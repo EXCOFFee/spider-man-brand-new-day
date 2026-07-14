@@ -16,9 +16,6 @@ export const es = {
     cta: "Ver la cuenta regresiva",
     slingers: {
       label: "web-slingers listos",
-      note: "Sumate al conteo",
-      action: "Contame",
-      counted: "Ya estas en el conteo",
     },
   },
   countdown: {
