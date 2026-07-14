@@ -53,7 +53,8 @@ const { port } = server.address();
 const base = `http://localhost:${port}`;
 
 const browser = await chromium.launch();
-const page = await browser.newPage();
+const context = await browser.newContext();
+const page = await context.newPage();
 let failures = 0;
 
 for (const route of ROUTES) {
