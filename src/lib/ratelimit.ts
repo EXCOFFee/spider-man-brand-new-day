@@ -1,5 +1,6 @@
 import { Ratelimit } from "@upstash/ratelimit";
 import type { Redis } from "@upstash/redis";
+import { KEY_PREFIX } from "./redis";
 
 // Sliding window: 5 writes per IP per 60 seconds. This is the control that
 // protects the free-tier quota under a spike (ADR-006, STRIDE / DoS).
@@ -10,7 +11,7 @@ export function getRatelimit(redis: Redis): Ratelimit {
     cached = new Ratelimit({
       redis,
       limiter: Ratelimit.slidingWindow(5, "60 s"),
-      prefix: "rl:slingers",
+      prefix: `${KEY_PREFIX}rl:slingers`,
       analytics: false,
     });
   }

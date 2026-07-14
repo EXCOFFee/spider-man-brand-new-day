@@ -1,8 +1,12 @@
 import { Redis } from "@upstash/redis";
 
+// Every key this project writes is namespaced, so the same Upstash database can
+// be shared with other apps without collisions.
+export const KEY_PREFIX = "smbnd:";
+
 // The counter key. A single key of cardinality 1 — the intentional hot
 // partition the whole design is built to absorb (ADR-006).
-export const COUNTER_KEY = "counter:global";
+export const COUNTER_KEY = `${KEY_PREFIX}counter:global`;
 
 // Read credentials at runtime (Vercel injects them into the function env). If
 // they are absent, the client is null and every caller degrades gracefully —

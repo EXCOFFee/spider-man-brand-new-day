@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { getRedis, withTimeout, COUNTER_KEY, REDIS_TIMEOUT_MS } from "../../lib/redis";
+import { getRedis, withTimeout, COUNTER_KEY, KEY_PREFIX, REDIS_TIMEOUT_MS } from "../../lib/redis";
 import { getRatelimit } from "../../lib/ratelimit";
 import { SLINGERS_FALLBACK } from "../../lib/site";
 
@@ -70,7 +70,7 @@ export const POST: APIRoute = async ({ cookies, clientAddress }) => {
   try {
     // SET NX wins only if this cookie has not been counted in the last 24 h.
     const won = await withTimeout(
-      redis.set(`${COOKIE}:${uuid}`, 1, { nx: true, ex: DEDUP_TTL }),
+      redis.set(`${KEY_PREFIX}slinger:${uuid}`, 1, { nx: true, ex: DEDUP_TTL }),
       REDIS_TIMEOUT_MS,
     );
     if (won === null) {

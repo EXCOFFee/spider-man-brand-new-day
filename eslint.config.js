@@ -10,6 +10,8 @@ export default [
       ".astro/",
       "node_modules/",
       ".lighthouseci/",
+      ".agents/",
+      ".claude/",
     ],
   },
   js.configs.recommended,
