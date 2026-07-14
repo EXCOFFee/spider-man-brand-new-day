@@ -69,6 +69,17 @@ pnpm lhci           # Lighthouse -> 100/100/100/100 mobile
 pnpm load           # load test k6 (requiere URL de produccion)
 ```
 
+## Decisiones de alcance
+
+Lo que se dejo afuera a proposito, no por olvido:
+
+- **View Transitions entre rutas (`<ClientRouter />`).** Se evaluo y se descarto. El sitio tiene
+  dos rutas y un unico link entre idiomas; los ~6 KB de runtime son un 30-40% del presupuesto de
+  JS a cambio de una transicion apenas perceptible (la pagina cambia de idioma por completo).
+  La navegacion nativa de una home de ~20 KB servida desde el borde ya es instantanea.
+- **Interaccion de la telaraña en touch.** No hay puntero fino, asi que la telaraña se sirve
+  estatica y el JS de interaccion ni se descarga. Mismo comportamiento con `prefers-reduced-motion`.
+
 ## Accesibilidad
 
 Todo operable por teclado con foco visible. Contraste verificado >= 4.5:1. Con
