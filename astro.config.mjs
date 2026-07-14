@@ -13,5 +13,11 @@ export default defineConfig({
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      // The site ships a handful of tiny scripts; the module-preload helper
+      // costs more than it saves and would bloat the always-loaded web
+      // interaction bootstrap. Chunks are fetched on demand instead.
+      modulePreload: false,
+    },
   },
 });

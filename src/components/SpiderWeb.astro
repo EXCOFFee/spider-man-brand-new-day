@@ -1,0 +1,83 @@
+---
+import { buildWeb } from "../lib/web";
+
+// Geometry is computed here, at build time, and inlined into the HTML — no extra
+// request, and it parses with the document. The seed keeps the output (and its
+// hash) stable across builds.
+const { radials, threads, nodes } = buildWeb({
+  radials: 10,
+  rings: 6,
+  spanStart: 3,
+  spanEnd: 87,
+  minRadius: 15,
+  maxRadius: 134,
+  curve: 0.16,
+  gravity: 0.05,
+  jitter: 0.22,
+  anchor: { x: 1, y: 1 },
+  seed: 20260729,
+});
+---
+
+<svg
+  class="web"
+  data-web
+  viewBox="0 0 100 100"
+  preserveAspectRatio="xMidYMid slice"
+  aria-hidden="true"
+  focusable="false"
+>
+  <g class="web-threads">
+    {threads.map((d) => <path d={d} />)}
+  </g>
+  <g class="web-radials">
+    {radials.map((d) => <path d={d} />)}
+  </g>
+  <g class="web-nodes">
+    {nodes.map((p) => <circle class="web-node" cx={p.x} cy={p.y} r="0.5" />)}
+  </g>
+</svg>
+
+<script>
+  // The interaction chunk is fetched only when it can do something useful: a
+  // fine pointer and no reduced-motion request. On touch or with reduced motion
+  // the web stays static and this module never loads.
+  if (
+    matchMedia("(pointer: fine)").matches &&
+    !matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    import("../scripts/web-interaction");
+  }
+</script>
+
+<style>
+  .web {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    color: var(--color-paper);
+  }
+  .web-threads path,
+  .web-radials path {
+    fill: none;
+    stroke: currentColor;
+    vector-effect: non-scaling-stroke;
+    stroke-linecap: round;
+  }
+  .web-threads path {
+    stroke-width: 0.6;
+    opacity: 0.09;
+  }
+  .web-radials path {
+    stroke-width: 0.8;
+    opacity: 0.14;
+  }
+  .web-node {
+    fill: var(--color-red);
+    opacity: 0.55;
+    transition: transform 120ms ease-out;
+    will-change: transform;
+  }
+</style>
