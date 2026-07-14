@@ -4,7 +4,7 @@ Proyecto de fan, no oficial. Sin afiliacion ni respaldo de Marvel, Sony Pictures
 licenciantes. Toda la identidad visual es original y generada por codigo (CSS/SVG). No se usa
 ningun asset licenciado.
 
-- Demo: TODO (completar en deploy)
+- Demo: https://spider-man-brand-new-day-two.vercel.app
 - Repositorio: https://github.com/EXCOFFee/spider-man-brand-new-day
 
 ## La tesis

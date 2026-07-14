@@ -64,10 +64,10 @@ export const es = {
     intro:
       "Esta landing esta pensada para el 29/07: un dia de trafico concentrado. El contenido es estatico y vive en el borde; lo unico dinamico es el contador, disenado como el peor caso posible.",
     metrics: [
-      { label: "JavaScript enviado", value: "~1 KB", note: "sin librerias de animacion" },
-      { label: "Peso total de la home", value: "< 15 KB", note: "imagenes criticas: 0 KB" },
-      { label: "LCP objetivo", value: "< 1.2 s", note: "el LCP es texto, no una imagen" },
-      { label: "Lecturas a Redis", value: "≤ 6 / min / PoP", note: "el resto lo absorbe el cache de edge" },
+      { label: "JavaScript enviado", value: "1 KB", note: "sin librerias de animacion" },
+      { label: "Peso total de la home", value: "21 KB", note: "imagenes criticas: 0 KB" },
+      { label: "LCP en produccion", value: "0.9 s", note: "el LCP es texto, no una imagen" },
+      { label: "Cache hit bajo carga", value: "99.99%", note: "70k lecturas, ~4 tocaron Redis" },
     ],
     note: "Los numeros medidos del load test y del experimento con Redis caido estan en el repositorio.",
     cta: "Ver la ingenieria en el repo",

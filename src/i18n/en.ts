@@ -63,10 +63,10 @@ export const en = {
     intro:
       "This landing is built for July 29: a day of concentrated traffic. The content is static and lives at the edge; the only dynamic piece is the counter, designed as the worst possible case.",
     metrics: [
-      { label: "JavaScript shipped", value: "~1 KB", note: "no animation libraries" },
-      { label: "Total home weight", value: "< 15 KB", note: "critical images: 0 KB" },
-      { label: "LCP target", value: "< 1.2 s", note: "the LCP is text, not an image" },
-      { label: "Reads to Redis", value: "≤ 6 / min / PoP", note: "the edge cache absorbs the rest" },
+      { label: "JavaScript shipped", value: "1 KB", note: "no animation libraries" },
+      { label: "Total home weight", value: "21 KB", note: "critical images: 0 KB" },
+      { label: "LCP in production", value: "0.9 s", note: "the LCP is text, not an image" },
+      { label: "Cache hit under load", value: "99.99%", note: "70k reads, ~4 hit Redis" },
     ],
     note: "Measured load-test numbers and the Redis-down experiment live in the repository.",
     cta: "See the engineering in the repo",
