@@ -1,13 +1,19 @@
 ---
 import "../styles/global.css";
+import { type Lang } from "../i18n";
+import { SITE_URL } from "../lib/site";
 
 interface Props {
-  lang: "es" | "en";
+  lang: Lang;
   title: string;
   description: string;
 }
 
 const { lang, title, description } = Astro.props;
+const path = Astro.url.pathname;
+const canonical = new URL(path, SITE_URL).href;
+const esUrl = new URL("/", SITE_URL).href;
+const enUrl = new URL("/en/", SITE_URL).href;
 ---
 
 <!doctype html>
@@ -17,6 +23,10 @@ const { lang, title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href={esUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={esUrl} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link
       rel="preload"
@@ -25,6 +35,11 @@ const { lang, title, description } = Astro.props;
       type="font/woff2"
       crossorigin
     />
+    <meta name="theme-color" content="#0a0a0f" />
+    {/* Flag JS synchronously so scroll-reveal only hides content when it can also reveal it. */}
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
   <body>
     <slot />

@@ -1,0 +1,110 @@
+---
+import { TARGET_DATE } from "../lib/site";
+import { useTranslations, type Lang } from "../i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).countdown;
+
+// Build-time snapshot so the digits are present without JS. The client corrects
+// them to the live delta on load.
+const remaining = Math.max(0, Date.parse(TARGET_DATE) - Date.now());
+let d = remaining;
+const days = Math.floor(d / 86_400_000);
+d -= days * 86_400_000;
+const hours = Math.floor(d / 3_600_000);
+d -= hours * 3_600_000;
+const minutes = Math.floor(d / 60_000);
+d -= minutes * 60_000;
+const seconds = Math.floor(d / 1000);
+const pad = (v: number) => String(v).padStart(2, "0");
+
+const cells = [
+  { key: "days", hook: "data-days", value: String(days), label: t.units.days },
+  { key: "hours", hook: "data-hours", value: pad(hours), label: t.units.hours },
+  { key: "minutes", hook: "data-minutes", value: pad(minutes), label: t.units.minutes },
+  { key: "seconds", hook: "data-seconds", value: pad(seconds), label: t.units.seconds },
+];
+---
+
+<section id="countdown" class="countdown" aria-labelledby="countdown-heading">
+  <div class="container">
+    <h2 id="countdown-heading" class="countdown-heading" data-reveal>{t.heading}</h2>
+    <div class="countdown-shell" data-countdown data-target={TARGET_DATE}>
+      <ol class="countdown-grid" data-countdown-grid>
+        {
+          cells.map((cell) => (
+            <li class="countdown-cell">
+              <span class="countdown-num" {...{ [cell.hook]: "" }}>
+                {cell.value}
+              </span>
+              <span class="countdown-unit">{cell.label}</span>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="countdown-live" data-countdown-live hidden>{t.live}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .countdown {
+    padding-block: var(--spacing-section);
+    border-top: 1px solid color-mix(in srgb, var(--color-paper) 12%, transparent);
+  }
+  .countdown-heading {
+    font-size: var(--text-h2);
+    margin-bottom: clamp(2rem, 1rem + 4vw, 4rem);
+    color: var(--color-paper);
+  }
+  .countdown-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: color-mix(in srgb, var(--color-paper) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-paper) 12%, transparent);
+  }
+  @media (min-width: 48rem) {
+    .countdown-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .countdown-cell {
+    display: grid;
+    gap: 0.5rem;
+    justify-items: center;
+    padding: clamp(1.5rem, 1rem + 3vw, 3rem) 1rem;
+    background: var(--color-night);
+  }
+  .countdown-num {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 1.8rem + 6vw, 6rem);
+    line-height: 1;
+    color: var(--color-paper);
+    font-variant-numeric: tabular-nums;
+  }
+  .countdown-unit {
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: color-mix(in srgb, var(--color-paper) 75%, transparent);
+  }
+  .countdown-live {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    text-transform: uppercase;
+    color: var(--color-red);
+    margin: 0;
+  }
+</style>
+
+<script>
+  import "../scripts/countdown";
+</script>

@@ -1,0 +1,71 @@
+---
+import { REPO_URL } from "../lib/site";
+import { useTranslations, type Lang } from "../i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).footer;
+---
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-legal">
+      <h2 class="footer-heading">{t.disclaimerHeading}</h2>
+      {/* Full IP disclaimer, both languages, never abbreviated (ADR-004). */}
+      <p class="footer-disclaimer" lang="es">{t.disclaimerEs}</p>
+      <p class="footer-disclaimer" lang="en">{t.disclaimerEn}</p>
+    </div>
+    <div class="footer-meta">
+      <a class="footer-link" href={REPO_URL} rel="noopener">{t.repo}</a>
+      <p class="footer-credit">{t.fontCredit}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: var(--spacing-section);
+    background: var(--color-ink);
+    border-top: 1px solid color-mix(in srgb, var(--color-paper) 16%, transparent);
+  }
+  .footer-inner {
+    display: grid;
+    gap: clamp(2rem, 1rem + 4vw, 3.5rem);
+  }
+  @media (min-width: 52rem) {
+    .footer-inner {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 18rem);
+      gap: 3rem;
+    }
+  }
+  .footer-heading {
+    font-size: var(--text-h3);
+    color: var(--color-red);
+    margin-bottom: 1rem;
+  }
+  .footer-disclaimer {
+    margin: 0 0 0.75rem;
+    max-width: 62ch;
+    font-size: var(--text-body);
+    color: color-mix(in srgb, var(--color-paper) 78%, transparent);
+  }
+  .footer-meta {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+  }
+  .footer-link {
+    font-weight: 600;
+    color: var(--color-red-bright);
+    text-underline-offset: 4px;
+    width: fit-content;
+  }
+  .footer-credit {
+    margin: 0;
+    font-size: var(--text-caption);
+    color: color-mix(in srgb, var(--color-paper) 60%, transparent);
+  }
+</style>

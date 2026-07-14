@@ -1,0 +1,133 @@
+---
+import { useTranslations, type Lang } from "../i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).multiverse;
+---
+
+<section class="multiverse" aria-labelledby="multiverse-heading">
+  <div class="container">
+    <div class="multiverse-head">
+      <h2 id="multiverse-heading" class="multiverse-heading" data-reveal>{t.heading}</h2>
+      <p class="multiverse-intro" data-reveal>{t.intro}</p>
+    </div>
+    <ul class="panels">
+      {
+        t.panels.map((panel, index) => (
+          <li class={`panel panel-${index + 1}`} data-reveal>
+            <div class="panel-texture halftone" aria-hidden="true" />
+            <span class="panel-index">{String(index + 1).padStart(2, "0")}</span>
+            <h3 class="panel-title">{panel.title}</h3>
+            <p class="panel-body">{panel.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .multiverse {
+    padding-block: var(--spacing-section);
+    background: linear-gradient(180deg, var(--color-ink), var(--color-night) 140%);
+  }
+  .multiverse-head {
+    display: grid;
+    gap: 1rem;
+    max-width: 46ch;
+    margin-bottom: clamp(2rem, 1rem + 4vw, 4rem);
+  }
+  .multiverse-heading {
+    font-size: var(--text-h2);
+    color: var(--color-paper);
+  }
+  .multiverse-intro {
+    margin: 0;
+    font-size: var(--text-lead);
+    color: color-mix(in srgb, var(--color-paper) 82%, transparent);
+  }
+  .panels {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+  }
+  /* Asymmetric comic-panel grid on wider screens. */
+  @media (min-width: 46rem) {
+    .panels {
+      grid-template-columns: repeat(6, 1fr);
+      grid-auto-rows: minmax(11rem, auto);
+    }
+    .panel-1 {
+      grid-column: span 4;
+      grid-row: span 2;
+    }
+    .panel-2 {
+      grid-column: span 2;
+    }
+    .panel-3 {
+      grid-column: span 2;
+    }
+    .panel-4 {
+      grid-column: span 6;
+    }
+  }
+  @media (min-width: 68rem) {
+    .panel-4 {
+      grid-column: 5 / span 2;
+      grid-row: 2 / span 2;
+    }
+    .panel-2 {
+      grid-column: 5 / span 2;
+    }
+    .panel-3 {
+      grid-column: 1 / span 4;
+    }
+  }
+  .panel {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: clamp(1.25rem, 1rem + 2vw, 2rem);
+    background: var(--color-ink);
+    border: 1px solid color-mix(in srgb, var(--color-paper) 14%, transparent);
+    isolation: isolate;
+  }
+  .panel-texture {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.25;
+    --dot-gap: 8px;
+    --dot-color: color-mix(in srgb, var(--color-red) 55%, transparent);
+    -webkit-mask-image: radial-gradient(90% 90% at 90% 100%, #000, transparent 72%);
+    mask-image: radial-gradient(90% 90% at 90% 100%, #000, transparent 72%);
+  }
+  .panel-index {
+    font-family: var(--font-display);
+    font-size: var(--text-caption);
+    color: var(--color-red-bright);
+    letter-spacing: 0.1em;
+  }
+  .panel-title {
+    font-size: var(--text-h3);
+    color: var(--color-paper);
+  }
+  .panel-body {
+    margin: 0;
+    font-size: var(--text-body);
+    color: color-mix(in srgb, var(--color-paper) 82%, transparent);
+    max-width: 40ch;
+  }
+  .panel-1 .panel-title {
+    font-size: clamp(1.8rem, 1.4rem + 2vw, 3rem);
+  }
+</style>

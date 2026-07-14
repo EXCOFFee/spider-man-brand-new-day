@@ -1,0 +1,41 @@
+---
+import { SLINGERS_FALLBACK } from "../lib/site";
+import { useTranslations, type Lang } from "../i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).hero.slingers;
+// The value is inlined at build time, so the number shows even with JS disabled
+// or Redis unreachable. The client (T6) replaces it with the live count.
+const initial = SLINGERS_FALLBACK.toLocaleString(lang === "es" ? "es-AR" : "en-US");
+---
+
+<div class="counter" data-counter data-initial={SLINGERS_FALLBACK} data-locale={lang}>
+  <span class="counter-value" data-counter-value>{initial}</span>
+  <span class="counter-label">{t.label}</span>
+</div>
+
+<style>
+  .counter {
+    display: inline-grid;
+    gap: 0.15rem;
+    margin-block: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  }
+  .counter-value {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 1.8rem + 4.5vw, 5rem);
+    line-height: 1;
+    color: var(--color-red-bright);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+  }
+  .counter-label {
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: color-mix(in srgb, var(--color-paper) 78%, transparent);
+  }
+</style>

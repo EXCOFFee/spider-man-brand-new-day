@@ -1,0 +1,114 @@
+---
+import { REPO_URL } from "../lib/site";
+import { useTranslations, type Lang } from "../i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).tech;
+---
+
+<section class="tech" aria-labelledby="tech-heading">
+  <div class="container">
+    <div class="tech-head">
+      <h2 id="tech-heading" class="tech-heading" data-reveal>{t.heading}</h2>
+      <p class="tech-intro" data-reveal>{t.intro}</p>
+    </div>
+    <dl class="tech-metrics">
+      {
+        t.metrics.map((metric) => (
+          <div class="tech-metric" data-reveal>
+            <dt class="tech-metric-label">{metric.label}</dt>
+            <dd class="tech-metric-value">{metric.value}</dd>
+            <dd class="tech-metric-note">{metric.note}</dd>
+          </div>
+        ))
+      }
+    </dl>
+    <p class="tech-foot" data-reveal>
+      <span>{t.note}</span>
+      <a class="tech-cta" href={REPO_URL} rel="noopener">{t.cta}</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .tech {
+    padding-block: var(--spacing-section);
+    border-top: 1px solid color-mix(in srgb, var(--color-paper) 12%, transparent);
+  }
+  .tech-head {
+    display: grid;
+    gap: 1rem;
+    max-width: 52ch;
+    margin-bottom: clamp(2rem, 1rem + 4vw, 3.5rem);
+  }
+  .tech-heading {
+    font-size: var(--text-h2);
+    color: var(--color-paper);
+  }
+  .tech-intro {
+    margin: 0;
+    font-size: var(--text-lead);
+    color: color-mix(in srgb, var(--color-paper) 82%, transparent);
+  }
+  .tech-metrics {
+    margin: 0;
+    display: grid;
+    gap: 1px;
+    grid-template-columns: 1fr;
+    background: color-mix(in srgb, var(--color-paper) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-paper) 12%, transparent);
+  }
+  @media (min-width: 40rem) {
+    .tech-metrics {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 64rem) {
+    .tech-metrics {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .tech-metric {
+    background: var(--color-ink);
+    padding: clamp(1.25rem, 1rem + 2vw, 2rem);
+    display: grid;
+    gap: 0.4rem;
+    align-content: start;
+  }
+  .tech-metric-label {
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: color-mix(in srgb, var(--color-paper) 70%, transparent);
+  }
+  .tech-metric-value {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 1.2rem + 2vw, 2.4rem);
+    color: var(--color-red-bright);
+    line-height: 1;
+  }
+  .tech-metric-note {
+    margin: 0;
+    font-size: var(--text-caption);
+    color: color-mix(in srgb, var(--color-paper) 62%, transparent);
+  }
+  .tech-foot {
+    margin: clamp(1.5rem, 1rem + 2vw, 2.5rem) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    align-items: baseline;
+    font-size: var(--text-body);
+    color: color-mix(in srgb, var(--color-paper) 76%, transparent);
+  }
+  .tech-cta {
+    color: var(--color-red-bright);
+    font-weight: 600;
+    text-underline-offset: 4px;
+  }
+</style>

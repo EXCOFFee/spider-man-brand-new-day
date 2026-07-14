@@ -1,0 +1,115 @@
+---
+import SpiderWeb from "./SpiderWeb.astro";
+import Counter from "./Counter.astro";
+import { useTranslations, type Lang } from "../i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).hero;
+---
+
+<header class="hero">
+  <div class="hero-texture halftone" aria-hidden="true"></div>
+  <SpiderWeb />
+  <div class="container hero-inner">
+    <p class="hero-eyebrow">
+      <span class="hero-eyebrow-tag">{t.eyebrow}</span>
+      <span class="hero-eyebrow-date">{t.date}</span>
+    </p>
+    <h1 class="hero-title">
+      {t.titleLine1}<span class="hero-title-line">{t.titleLine2}</span>
+    </h1>
+    <p class="hero-tagline">{t.tagline}</p>
+    <Counter lang={lang} />
+    <a class="hero-cta" href="#countdown">
+      {t.cta}
+      <span class="hero-cta-arrow" aria-hidden="true">&darr;</span>
+    </a>
+  </div>
+</header>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100dvh;
+    display: grid;
+    align-content: end;
+    padding-block: var(--spacing-section);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero-texture {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    opacity: 0.4;
+    --dot-gap: 9px;
+    -webkit-mask-image: radial-gradient(130% 100% at 12% 0%, #000, transparent 70%);
+    mask-image: radial-gradient(130% 100% at 12% 0%, #000, transparent 70%);
+  }
+  .hero :global(.web) {
+    z-index: -1;
+  }
+  .hero-inner {
+    position: relative;
+  }
+  .hero-eyebrow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    margin: 0 0 clamp(1rem, 0.5rem + 2vw, 2rem);
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+  }
+  .hero-eyebrow-tag {
+    color: color-mix(in srgb, var(--color-paper) 80%, transparent);
+  }
+  .hero-eyebrow-date {
+    color: var(--color-red-bright);
+    padding-inline-start: 1rem;
+    border-inline-start: 1px solid color-mix(in srgb, var(--color-paper) 30%, transparent);
+  }
+  .hero-title {
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    max-width: 16ch;
+  }
+  .hero-title-line {
+    display: block;
+    color: var(--color-red);
+  }
+  .hero-tagline {
+    margin: clamp(1.25rem, 0.8rem + 2vw, 2rem) 0 0;
+    max-width: 46ch;
+    font-size: var(--text-lead);
+    color: color-mix(in srgb, var(--color-paper) 88%, transparent);
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.5rem;
+    width: fit-content;
+    background: var(--color-red);
+    color: var(--color-paper);
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border-radius: 2px;
+    transition: transform 0.2s ease;
+  }
+  .hero-cta:hover {
+    transform: translateY(-2px);
+  }
+  .hero-cta-arrow {
+    transition: transform 0.2s ease;
+  }
+  .hero-cta:hover .hero-cta-arrow {
+    transform: translateY(3px);
+  }
+</style>

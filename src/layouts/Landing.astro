@@ -1,0 +1,68 @@
+---
+import Base from "./Base.astro";
+import Hero from "../components/Hero.astro";
+import Countdown from "../components/Countdown.astro";
+import Synopsis from "../components/Synopsis.astro";
+import Multiverse from "../components/Multiverse.astro";
+import TechSection from "../components/TechSection.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import LangSwitch from "../components/LangSwitch.astro";
+import { useTranslations, type Lang } from "../i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<Base lang={lang} title={t.meta.title} description={t.meta.description}>
+  <a class="skip-link" href="#main">{t.skipToContent}</a>
+  <nav class="lang-nav" aria-label={t.langSwitch.label}>
+    <div class="container lang-nav-inner">
+      <LangSwitch lang={lang} />
+    </div>
+  </nav>
+  <main id="main">
+    <Hero lang={lang} />
+    <Countdown lang={lang} />
+    <Synopsis lang={lang} />
+    <Multiverse lang={lang} />
+    <TechSection lang={lang} />
+  </main>
+  <SiteFooter lang={lang} />
+</Base>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: 0.5rem;
+    top: -4rem;
+    z-index: 20;
+    padding: 0.65rem 1rem;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    border-radius: 2px;
+    font-weight: 600;
+    transition: top 0.15s ease;
+  }
+  .skip-link:focus {
+    top: 0.5rem;
+  }
+  .lang-nav {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    z-index: 10;
+    padding-block: clamp(1rem, 0.5rem + 1.5vw, 1.75rem);
+  }
+  .lang-nav-inner {
+    display: flex;
+    justify-content: flex-end;
+  }
+</style>
+
+<script>
+  import "../scripts/reveal";
+</script>

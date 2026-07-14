@@ -1,0 +1,57 @@
+---
+import { useTranslations, type Lang } from "../i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).synopsis;
+---
+
+<section class="synopsis" aria-labelledby="synopsis-heading">
+  <div class="container synopsis-inner">
+    <h2 id="synopsis-heading" class="synopsis-heading" data-reveal>{t.heading}</h2>
+    <div class="synopsis-body">
+      {t.body.map((paragraph) => <p data-reveal>{paragraph}</p>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .synopsis {
+    padding-block: var(--spacing-section);
+  }
+  .synopsis-inner {
+    display: grid;
+    gap: clamp(1.5rem, 1rem + 3vw, 3rem);
+  }
+  @media (min-width: 52rem) {
+    .synopsis-inner {
+      grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+      gap: 3rem;
+      align-items: start;
+    }
+  }
+  .synopsis-heading {
+    font-size: var(--text-h2);
+    color: var(--color-red);
+    position: sticky;
+    top: 2rem;
+  }
+  .synopsis-body {
+    display: grid;
+    gap: 1.5rem;
+    max-width: 54ch;
+  }
+  .synopsis-body p {
+    margin: 0;
+    font-size: var(--text-lead);
+    color: color-mix(in srgb, var(--color-paper) 90%, transparent);
+  }
+  .synopsis-body p:first-child {
+    font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2rem);
+    color: var(--color-paper);
+    line-height: 1.35;
+  }
+</style>

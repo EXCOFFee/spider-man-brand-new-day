@@ -1,0 +1,42 @@
+---
+import { alternatePath, useTranslations, type Lang } from "../i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).langSwitch;
+const to = alternatePath(lang);
+const targetLang: Lang = lang === "es" ? "en" : "es";
+const label = lang === "es" ? t.toEn : t.toEs;
+---
+
+<a class="lang-switch" href={to} hreflang={targetLang} lang={targetLang} rel="alternate">
+  <span aria-hidden="true">{targetLang.toUpperCase()}</span>
+  <span class="lang-switch-label">{label}</span>
+</a>
+
+<style>
+  .lang-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.85rem;
+    font-size: var(--text-caption);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-paper);
+    border: 1px solid color-mix(in srgb, var(--color-paper) 28%, transparent);
+    border-radius: 2px;
+    transition: border-color 0.2s ease;
+  }
+  .lang-switch:hover {
+    border-color: var(--color-red-bright);
+  }
+  .lang-switch span:first-child {
+    font-family: var(--font-display);
+    color: var(--color-red-bright);
+  }
+</style>
