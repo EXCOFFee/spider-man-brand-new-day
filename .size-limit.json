@@ -1,0 +1,22 @@
+[
+  {
+    "name": "CSS",
+    "path": "dist/_astro/**/*.css",
+    "limit": "25 KB"
+  },
+  {
+    "name": "HTML document (/)",
+    "path": "dist/index.html",
+    "limit": "40 KB"
+  },
+  {
+    "name": "Total home payload (/)",
+    "path": [
+      "dist/index.html",
+      "dist/_astro/**/*.css",
+      "dist/_astro/**/*.js",
+      "dist/**/*.woff2"
+    ],
+    "limit": "120 KB"
+  }
+]
