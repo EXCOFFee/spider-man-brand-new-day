@@ -39,4 +39,11 @@ export default [
       "no-console": "off",
     },
   },
+  {
+    // k6 load-test scripts run in the k6 runtime with its own globals.
+    files: ["load/**/*.js"],
+    languageOptions: {
+      globals: { __ENV: "readonly", __VU: "readonly", __ITER: "readonly" },
+    },
+  },
 ];
