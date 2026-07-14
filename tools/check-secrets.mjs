@@ -9,8 +9,8 @@ import { join, extname } from "node:path";
 // token is a security incident, not a warning.
 
 const CANDIDATE_DIRS = [".vercel/output/static", "dist/client", "dist"];
-const ROOT = CANDIDATE_DIRS.find((dir) => existsSync(dir));
-if (!ROOT) {
+const ROOTS = CANDIDATE_DIRS.filter((dir) => existsSync(dir));
+if (ROOTS.length === 0) {
   console.error("No build output found. Run `pnpm build` first.");
   process.exit(1);
 }
@@ -40,9 +40,16 @@ async function walk(dir) {
   return files;
 }
 
-const files = await walk(ROOT);
-let leaks = 0;
+const files = (await Promise.all(ROOTS.map(walk))).flat();
 
+// A zero-file scan means the client bundle is missing or the build is
+// incomplete: fail rather than pass vacuously.
+if (files.length === 0) {
+  console.error(`No client files found in ${ROOTS.join(", ")}. The build looks incomplete.`);
+  process.exit(1);
+}
+
+let leaks = 0;
 for (const file of files) {
   const content = await readFile(file, "utf8");
   for (const { label, pattern } of forbidden) {
@@ -55,7 +62,7 @@ for (const file of files) {
 }
 
 if (leaks > 0) {
-  console.error(`\n${leaks} secret leak(s) found in ${ROOT}. Failing the build.`);
+  console.error(`\n${leaks} secret leak(s) found. Failing the build.`);
   process.exit(1);
 }
-console.log(`check:secrets — scanned ${files.length} file(s) in ${ROOT}, no secrets found.`);
+console.log(`check:secrets — scanned ${files.length} file(s) in ${ROOTS.join(", ")}, no secrets found.`);

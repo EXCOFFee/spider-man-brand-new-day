@@ -8,9 +8,9 @@ import { AxeBuilder } from "@axe-core/playwright";
 // The Vercel adapter emits the prerendered site under .vercel/output/static.
 // Fall back to dist for a plain static build.
 const CANDIDATE_DIRS = [".vercel/output/static", "dist/client", "dist"];
-const ROOT = CANDIDATE_DIRS.find((dir) => existsSync(dir));
+const ROOT = CANDIDATE_DIRS.find((dir) => existsSync(join(dir, "index.html")));
 if (!ROOT) {
-  console.error("No build output found. Run `pnpm build` first.");
+  console.error("No built pages found. Run `pnpm build` first.");
   process.exit(1);
 }
 

@@ -1,27 +1,32 @@
 [
   {
+    "name": "Client JS (route /)",
+    "path": ".vercel/output/static/_astro/**/*.js",
+    "limit": "20 KB"
+  },
+  {
     "name": "CSS",
-    "path": "dist/_astro/**/*.css",
+    "path": ".vercel/output/static/_astro/**/*.css",
     "limit": "25 KB"
   },
   {
     "name": "Fonts (WOFF2)",
-    "path": "dist/**/*.woff2",
+    "path": ".vercel/output/static/**/*.woff2",
     "gzip": false,
     "limit": "30 KB"
   },
   {
     "name": "HTML document (/)",
-    "path": "dist/index.html",
+    "path": ".vercel/output/static/index.html",
     "limit": "40 KB"
   },
   {
     "name": "Total home payload (/)",
     "path": [
-      "dist/index.html",
-      "dist/_astro/**/*.css",
-      "dist/_astro/**/*.js",
-      "dist/**/*.woff2"
+      ".vercel/output/static/index.html",
+      ".vercel/output/static/_astro/**/*.css",
+      ".vercel/output/static/_astro/**/*.js",
+      ".vercel/output/static/**/*.woff2"
     ],
     "limit": "120 KB"
   }
