@@ -1,7 +1,9 @@
 {
   "ci": {
     "collect": {
-      "staticDistDir": ".vercel/output/static",
+      "startServerCommand": "node tools/preview-server.mjs",
+      "startServerReadyPattern": "preview-server ready",
+      "url": ["http://localhost:4322/", "http://localhost:4322/en/"],
       "numberOfRuns": 3,
       "settings": {
         "formFactor": "mobile",

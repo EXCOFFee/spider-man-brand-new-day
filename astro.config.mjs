@@ -11,6 +11,12 @@ export default defineConfig({
   site: 'https://spider-man-brand-new-day.vercel.app',
   adapter: vercel(),
   integrations: [sitemap()],
+  build: {
+    // Inline all CSS into the document. The whole stylesheet is a few KB, and
+    // inlining removes the render-blocking request so the LCP text paints as
+    // soon as the HTML arrives (ADR-005).
+    inlineStylesheets: "always",
+  },
   vite: {
     plugins: [tailwindcss()],
     build: {

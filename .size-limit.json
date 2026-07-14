@@ -5,11 +5,6 @@
     "limit": "20 KB"
   },
   {
-    "name": "CSS",
-    "path": ".vercel/output/static/_astro/**/*.css",
-    "limit": "25 KB"
-  },
-  {
     "name": "Fonts (WOFF2)",
     "path": ".vercel/output/static/**/*.woff2",
     "gzip": false,
