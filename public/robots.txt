@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://spider-man-brand-new-day.vercel.app/sitemap-index.xml

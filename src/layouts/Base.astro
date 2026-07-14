@@ -14,6 +14,19 @@ const path = Astro.url.pathname;
 const canonical = new URL(path, SITE_URL).href;
 const esUrl = new URL("/", SITE_URL).href;
 const enUrl = new URL("/en/", SITE_URL).href;
+const ogImage = new URL("/og.png", SITE_URL).href;
+const ogLocale = lang === "es" ? "es_ES" : "en_US";
+
+const movieSchema = {
+  "@context": "https://schema.org",
+  "@type": "Movie",
+  name: "Spider-Man: Brand New Day",
+  datePublished: "2026-07-29",
+  inLanguage: lang,
+  description,
+  url: canonical,
+  image: ogImage,
+};
 ---
 
 <!doctype html>
@@ -36,6 +49,23 @@ const enUrl = new URL("/en/", SITE_URL).href;
       crossorigin
     />
     <meta name="theme-color" content="#0a0a0f" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Spider-Man: Brand New Day" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(movieSchema)} is:inline />
+
     {/* Flag JS synchronously so scroll-reveal only hides content when it can also reveal it. */}
     <script is:inline>
       document.documentElement.classList.add("js");
