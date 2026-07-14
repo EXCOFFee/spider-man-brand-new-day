@@ -1,0 +1,41 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.vercel/
+
+# generated types
+.astro/
+
+# environment
+.env
+.env.*
+!.env.example
+
+# agent and editor tooling
+.claude/
+.cursor/
+.trae/
+.agents/
+.aider*
+.windsurf/
+.vscode/
+.idea/
+CLAUDE.local.md
+*.prompt.md
+PROMPT_*.md
+skills-lock.json
+AGENTS.md
+
+# logs
+*-debug.log*
+
+# test and audit artifacts
+.lighthouseci/
+test-results/
+playwright-report/
+
+# os
+.DS_Store
+Thumbs.db

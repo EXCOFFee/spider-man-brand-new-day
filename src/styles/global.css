@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* Design tokens are defined here once (T2). Placeholder base for T1 so the
+   build produces a CSS artifact that the byte budget can measure. */
+@theme {
+  --color-ink: #0a0a0f;
+  --color-paper: #f4f1ea;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  font-family: system-ui, sans-serif;
+}
