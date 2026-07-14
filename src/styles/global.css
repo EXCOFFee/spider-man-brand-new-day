@@ -1,19 +1,146 @@
 @import "tailwindcss";
 
-/* Design tokens are defined here once (T2). Placeholder base for T1 so the
-   build produces a CSS artifact that the byte budget can measure. */
-@theme {
-  --color-ink: #0a0a0f;
-  --color-paper: #f4f1ea;
+/*
+  Display face: Anton (SIL OFL 1.1), self-hosted and subset to the Latin set we
+  actually render. License in public/fonts/LICENSE. Regenerate with
+  tools/subset-font.sh.
+*/
+@font-face {
+  font-family: "Anton";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/anton-latin.woff2") format("woff2");
 }
 
+/*
+  Metric-matched fallback so the swap from the fallback to Anton shifts nothing
+  (CLS = 0). The overrides are computed from Anton's metrics against Arial's
+  (which resolves to metric-identical Liberation Sans on Linux). See
+  tools/subset-font.sh for the derivation.
+*/
+@font-face {
+  font-family: "Anton Fallback";
+  src: local("Arial");
+  size-adjust: 103.76%;
+  ascent-override: 113.36%;
+  descent-override: 31.72%;
+  line-gap-override: 0%;
+}
+
+@theme {
+  /* Palette (ADR-004). Contrast of every text/background pair verified >= 4.5:1. */
+  --color-ink: #0a0a0f; /* primary background */
+  --color-night: #111c4e; /* secondary panels */
+  --color-red: #c8102e; /* brand accent: fills, strands, CTA background */
+  --color-red-bright: #ed2142; /* accessible red text on ink (4.61:1) */
+  --color-paper: #f4f1ea; /* primary text on dark; light-panel background */
+
+  /* Typography */
+  --font-display: "Anton", "Anton Fallback", system-ui, sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+
+  /* Fluid type scale (mobile-first, clamp between ~360px and ~1240px). */
+  --text-caption: clamp(0.75rem, 0.72rem + 0.13vw, 0.85rem);
+  --text-body: clamp(1rem, 0.95rem + 0.24vw, 1.125rem);
+  --text-lead: clamp(1.15rem, 1rem + 0.65vw, 1.5rem);
+  --text-h3: clamp(1.35rem, 1.15rem + 0.9vw, 2rem);
+  --text-h2: clamp(2rem, 1.5rem + 2.3vw, 3.5rem);
+  --text-h1: clamp(2.75rem, 1.9rem + 3.9vw, 5rem);
+  --text-display: clamp(3.25rem, 1.4rem + 8.4vw, 9rem);
+
+  /* Fluid spacing for rhythm; Tailwind's numeric spacing scale stays available. */
+  --spacing-gutter: clamp(1.25rem, 0.9rem + 1.6vw, 2.5rem);
+  --spacing-section: clamp(3.5rem, 2.2rem + 6vw, 8rem);
+}
+
+/* Line heights: tight for display, comfortable for reading. */
 :root {
   color-scheme: dark;
+  --leading-display: 0.92;
+  --leading-heading: 1.05;
+  --leading-body: 1.6;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
+  min-height: 100dvh;
   background-color: var(--color-ink);
   color: var(--color-paper);
-  font-family: system-ui, sans-serif;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: var(--leading-heading);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Keyboard focus is always visible and on-brand (never removed without replacement). */
+:focus-visible {
+  outline: 3px solid var(--color-red-bright);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+a {
+  color: inherit;
+}
+
+/*
+  Ben-Day halftone (ADR-004): a repeated radial-gradient dot field, zero image
+  bytes. Consumers set --dot-color / --dot-gap and usually apply their own mask
+  to fade it. Decorative only, so it is hidden from assistive tech by the
+  elements that use it (aria-hidden).
+*/
+.halftone {
+  --dot-color: color-mix(in srgb, var(--color-red) 65%, transparent);
+  --dot-gap: 7px;
+  --dot-radius: 1.1px;
+  background-image: radial-gradient(
+    var(--dot-color) var(--dot-radius),
+    transparent calc(var(--dot-radius) + 0.6px)
+  );
+  background-size: var(--dot-gap) var(--dot-gap);
+  background-position: center;
+}
+
+/* Content container with fluid gutters. */
+.container {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

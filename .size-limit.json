@@ -5,6 +5,12 @@
     "limit": "25 KB"
   },
   {
+    "name": "Fonts (WOFF2)",
+    "path": "dist/**/*.woff2",
+    "gzip": false,
+    "limit": "30 KB"
+  },
+  {
     "name": "HTML document (/)",
     "path": "dist/index.html",
     "limit": "40 KB"
